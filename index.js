@@ -42,6 +42,6 @@ app.post("/add-password", async (req, res) => {
     });
 });
 
-app.listen(1212, () => {
+app.listen(PORT, () => {
   console.log("server listening on port 🔥", PORT);
 });
