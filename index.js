@@ -33,9 +33,19 @@ app.post("/get-password", async (req, res) => {
 app.post("/add-password", async (req, res) => {
   const { email, password } = req.body;
   console.log("➕ password");
+
   await PG.updateOne({ email: email }, { $push: { passwords: password } })
-    .then((data) => {
-      res.status(200).json(data);
+    .then(async (data) => {
+      let rs = data;
+      if (!data.modifiedCount) {
+        const newDoc = new PG({
+          email: email,
+          passwords: [password],
+        });
+        await newDoc.save();
+        rs = { modifiedCount: 1 };
+      }
+      res.status(200).json(rs);
     })
     .catch((e) => {
       res.status(404).json(e);
