@@ -48,6 +48,7 @@ app.post("/add-password", async (req, res) => {
       res.status(200).json(rs);
     })
     .catch((e) => {
+      console.log(e.message);
       res.status(404).json(e);
     });
 });
