@@ -1,7 +1,15 @@
 const NodeRsa = require("node-rsa");
 const fs = require("fs");
-const pubkey = new NodeRsa(fs.readFileSync("./public.pem"));
-const prikey = new NodeRsa(fs.readFileSync("./private.pem"));
+const pubkey = new NodeRsa(
+  "-----BEGIN PUBLIC KEY-----\n" +
+    process.env.PUBLIC_KEY +
+    "\n-----END PUBLIC KEY-----"
+);
+const prikey = new NodeRsa(
+  "-----BEGIN RSA PRIVATE KEY-----\n" +
+    process.env.PRIVATE_KEY +
+    "\n-----END RSA PRIVATE KEY-----"
+);
 
 function getDecryptedEmail(email) {
   return prikey.decrypt(email).toString("utf-8");
