@@ -31,8 +31,8 @@ app.get("/", (req, res) => {
 
 app.post("/get-password", async (req, res) => {
   const { email } = req.body;
-  const encEmail = getEncryptedEmail(email);
-  await PG.findOne({ email: encEmail })
+  // const encEmail = getEncryptedEmail(email);
+  await PG.findOne({ email: email })
     .then((data) => {
       res.status(200).json(getDecryptedPass(data));
     })
@@ -47,12 +47,12 @@ app.post("/add-password", async (req, res) => {
 
   console.log("➕ password");
 
-  await PG.updateOne({ email: encEmail }, { $push: { passwords: encPass } })
+  await PG.updateOne({ email: email }, { $push: { passwords: encPass } })
     .then(async (data) => {
       let rs = data;
       if (!data.modifiedCount) {
         const newDoc = new PG({
-          email: encEmail,
+          email: email,
           passwords: [encPass],
         });
         await newDoc.save();
