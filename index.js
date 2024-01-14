@@ -34,6 +34,7 @@ app.post("/get-password", async (req, res) => {
   // const encEmail = getEncryptedEmail(email);
   await PG.findOne({ email: email })
     .then((data) => {
+      // console.log(getDecryptedPass(data));
       res.status(200).json(getDecryptedPass(data));
     })
     .catch((e) => res.status(404).json(e.message));

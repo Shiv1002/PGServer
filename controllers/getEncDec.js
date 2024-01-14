@@ -17,12 +17,14 @@ function getDecryptedEmail(email) {
 
 function getDecryptedPass(document) {
   return {
-    ...document,
+    email: document.email,
     passwords: document.passwords.map((passObj) => {
       return {
-        ...passObj,
+        id: passObj.id,
         pass: prikey.decrypt(passObj.pass, "utf8"),
         passwordFor: prikey.decrypt(passObj.passwordFor, "utf8"),
+        timestamp: passObj.timestamp,
+        important: passObj.important,
       };
     }),
   };
